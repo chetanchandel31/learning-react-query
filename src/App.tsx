@@ -4,6 +4,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./App.module.css";
 import Home from "./components/Home.page";
+import RQSuperHero from "./components/RQSuperHero.page";
 import RQSuperHeroes from "./components/RQSuperHeroes.page";
 import SuperHeroes from "./components/SuperHeroes.page";
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/super-heroes" element={<SuperHeroes />} />
             <Route path="/rq-super-heroes" element={<RQSuperHeroes />} />
+            <Route path="/rq-super-heroes/:heroId" element={<RQSuperHero />} />
           </Routes>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />

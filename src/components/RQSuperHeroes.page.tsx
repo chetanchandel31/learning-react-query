@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios";
+import { Link } from "react-router-dom";
 import { useListSuperHeroes } from "../api/super-heroes";
 import { Hero } from "../types";
 
@@ -25,7 +26,9 @@ const RQSuperHeroes = () => {
       <button onClick={() => refetch()}>get data</button>
       <div>
         {data?.data.map((hero) => (
-          <div key={hero.id}>{hero.name}</div>
+          <div key={hero.id}>
+            <Link to={`/rq-super-heroes/${hero.id}`}>{hero.name}</Link>
+          </div>
         ))}
       </div>
     </>

@@ -1,22 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
+import {
+  QueryFunctionContext,
+  QueryKey,
+  useQuery,
+} from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Hero } from "../types";
 
+const BASE_URL = "http://localhost:4000/superheroes";
+
 // list super heroes
-type SuccessResponse = AxiosResponse<Hero[], any>;
+export type SuccessResponseListSuperHeroes = AxiosResponse<Hero[], any>;
 
 const fetchSuperHeroes = () => {
-  return axios.get<Hero[]>("http://localhost:4000/superheroes");
+  return axios.get<Hero[]>(BASE_URL);
 };
 
-const useListSuperHeroes = ({
+export const useListSuperHeroes = ({
   onSuccess,
   onError,
 }: {
-  onSuccess?: (data: SuccessResponse) => void;
+  onSuccess?: (data: SuccessResponseListSuperHeroes) => void;
   onError?: (data: AxiosError) => void;
 }) => {
-  return useQuery<SuccessResponse, AxiosError>(
+  return useQuery<SuccessResponseListSuperHeroes, AxiosError>(
     ["super-heroes"],
     fetchSuperHeroes,
     {
@@ -27,8 +33,19 @@ const useListSuperHeroes = ({
   );
 };
 
-// similarly can add hooks here for other relating endpoints
 // actually files within folder would be better
-// export success response type also
 
-export { useListSuperHeroes };
+export type SuccessResponseGetSuperHeroById = AxiosResponse<Hero, any>;
+
+const fetchSuperHero = ({ queryKey }: QueryFunctionContext<QueryKey, any>) => {
+  const heroId = queryKey[1];
+
+  return axios.get<Hero>(`${BASE_URL}/${heroId}`);
+};
+
+export const useGetSuperHeroById = ({ heroId }: { heroId: string }) => {
+  return useQuery<SuccessResponseGetSuperHeroById, AxiosError>(
+    ["super-hero", heroId],
+    fetchSuperHero
+  );
+};
